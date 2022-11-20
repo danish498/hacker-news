@@ -1,0 +1,26 @@
+
+
+
+.span_Data{
+    display: flex;
+}
+
+.spanValue {
+    font-size: 12px;
+    color: #7a7a76
+}
+
+a:link {
+    color: green;
+    text-decoration: none;
+  }
+  
+ 
+ 
+ 
+  a:hover {
+    color: red;
+    text-decoration: solid;
+  }
+  
+  
