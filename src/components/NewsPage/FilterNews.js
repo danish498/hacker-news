@@ -1,7 +1,15 @@
 import React from "react";
+import { timeValue } from "../../app/staticData";
 import classes from "./HackerNews.module.css";
 
-const FilterNews = ({ selectHandeler, searchResult, searchTime }) => {
+const FilterNews = ({
+  setSeachByLastTime,
+  selectHandeler,
+  searchResult,
+  searchTime,
+  setFilterBy,
+  selectHandlerDate,
+}) => {
   return (
     <div className={classes.filter_container}>
       <div className={classes.drop_downFilter}>
@@ -13,8 +21,10 @@ const FilterNews = ({ selectHandeler, searchResult, searchTime }) => {
             // onSelect={selectHandeler}
             onChange={selectHandeler}
           >
-            <option value="All">All</option>
-            <option value="story">Stories</option>
+            <option value="story">All</option>
+            <option value="story" selected>
+              Stories
+            </option>
             <option value="comment">Comments</option>
           </select>
         </div>
@@ -23,9 +33,10 @@ const FilterNews = ({ selectHandeler, searchResult, searchTime }) => {
           <select
             className={classes.dropDown_select}
             aria-label="Default select example"
+            onChange={selectHandlerDate}
           >
             <option value="1">Popularity</option>
-            <option value="1">Date</option>
+            <option value="story">Date</option>
           </select>
         </div>
         <div>
@@ -33,20 +44,33 @@ const FilterNews = ({ selectHandeler, searchResult, searchTime }) => {
           <select
             className={classes.dropDown_select}
             aria-label="Default select example"
+            onChange={(event) => {
+              const selectecValue = event.target.value;
+              if (selectecValue === 0) {
+                // setSeachByLastTime(0);
+                setFilterBy("search");
+              } else {
+                setSeachByLastTime(selectecValue);
+                setFilterBy("search_by_date");
+              }
+            }}
           >
-            <option defaultValue>All time</option>
-            <option value="1">Last 24h</option>
+            {timeValue.map((inpt) => (
+              <option value={inpt.value}>{inpt.label}</option>
+            ))}
+            <option>check</option>
+            {/* <option value="1">Last 24h</option>
             <option value="2">Past Week</option>
             <option value="3">Past Month</option>
             <option value="3">Past Year</option>
-            <option value="3">Custom Range</option>
+            <option value="3">Custom Range</option> */}
           </select>
         </div>
       </div>
       <div className={classes.filterValue}>
         <p>
-          {" "}
-          {searchResult} results ({searchTime} milliseconds)
+          {searchResult} results ({((searchTime / 1000) % 60).toFixed(3)}
+          seconds )
         </p>
       </div>
     </div>

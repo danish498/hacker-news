@@ -1,19 +1,16 @@
 import React from "react";
 import classes from "./NewsData.module.css";
 import moment from "moment/moment";
+import ReactHtmlParser from "react-html-parser";
+import DOMPurify from "dompurify";
+import { color } from "@mui/system";
+import { Link } from "react-router-dom";
 
-const newData = {
-  title: "Stephen Howkin died",
-  points: 6015,
-  date: "5 year ago",
-  comments: 436,
-};
-
-const NewsData = ({ newsList }) => {
+const NewsData = ({ newsList, searchText }) => {
   console.log("data form news list", newsList);
 
   return (
-    <>
+    <div>
       {newsList?.map((newData) => {
         if (newData?.title === null || !newData.title) {
           return <CommentView newData={newData} key={newData.parent_id} />;
@@ -21,57 +18,95 @@ const NewsData = ({ newsList }) => {
           return <TitleView newData={newData} key={newData.objectID} />;
         }
       })}
-    </>
+    </div>
   );
 };
 
 export default NewsData;
 
 const CommentView = ({ newData }) => {
+  console.log("===========================news data", newData);
   return (
     <section>
       <div className="mx-2">
         <div className={classes.span_Data}>
           <div>
-            <a href="#">
+            <Link
+              to={{
+                pathname: "/news-details",
+                search: `?newsid=${newData.objectID}`,
+              }}
+            >
               <span className={classes.spanValue}>{newData.points} points</span>
-            </a>
+            </Link>
           </div>
           <div>
-            <a href="#">
+            <Link
+              to={{
+                pathname: "/news-details",
+                search: `?newsid=${newData.objectID}`,
+              }}
+            >
               <span className={classes.spanValue}>
                 <span className="mx-1"> | </span> {newData.author}
               </span>
-            </a>
+            </Link>
           </div>
           <div>
-            <a href="#">
+            <Link
+              to={{
+                pathname: "/news-details",
+                search: `?newsid=${newData.objectID}`,
+              }}
+            >
               <span className={classes.spanValue}>
                 <span className="mx-1"> |</span>
-                {moment().diff(newData.created_at, "years")} years ago
+                {/* {moment().diff(newData.created_at, "current-year")} years ago */}
+                {moment
+                  .utc(newData.created_at)
+                  .local()
+                  .startOf("seconds")
+                  .fromNow()}
               </span>
-            </a>
+            </Link>
           </div>
           <div>
-            <a href="#">
+            <Link
+              to={{
+                pathname: "/news-details",
+                search: `?newsid=${newData.objectID}`,
+              }}
+            >
               <span className={classes.spanValue}>
                 <span className="mx-1">| </span>
                 parent
               </span>
-            </a>
+            </Link>
           </div>
           <div>
-            <a href="#">
+            <Link
+              to={{
+                pathname: "/news-details",
+                search: `?newsid=${newData.objectID}`,
+              }}
+            >
               <span className={classes.spanValue}>
                 <span className="mx-1">|</span>
                 {newData.story_title}
               </span>
-            </a>
+            </Link>
           </div>
         </div>
-        <div>
-          <p className="m-1">{newData.comment_text}</p>
-        </div>
+        <span
+          style={{
+            fontSize: "14px",
+            lineHeight: "normal",
+            fontWeight: "400",
+            color: "#000",
+          }}
+        >
+          {ReactHtmlParser(DOMPurify.sanitize(newData.comment_text))}
+        </span>
       </div>
     </section>
   );
@@ -80,42 +115,78 @@ const CommentView = ({ newData }) => {
 const TitleView = ({ newData }) => {
   return (
     <section>
-      <div className="my-4 mx-2">
-        <div>
-          <p className="text-truncate font-weight-normal text-dark h6">
-            {newData.title} (
-            <span className="text-secondary">{newData.url}</span>)
-          </p>
+      <div className="my-1 mx-2">
+        <div className=" d-flex  flex-wrap align-content-center  ">
+          <div className="me-2">
+            <Link
+              to={{
+                pathname: "/news-details",
+                search: `?newsid=${newData.objectID}`,
+              }}
+            >
+              <p className="text-truncate font-weight-normal text-dark h6 ">
+                {newData.title}
+              </p>
+            </Link>
+          </div>
+          <div className="">
+            <a href={newData.url} target="_blank" className="text-secondary">
+              ({newData.url})
+            </a>
+          </div>
         </div>
         <div className={classes.span_Data}>
           <div>
-            <a href="#">
+            <Link
+              to={{
+                pathname: "/news-details",
+                search: `?newsid=${newData.objectID}`,
+              }}
+            >
               <span className={classes.spanValue}>{newData.points} points</span>
-            </a>
+            </Link>
           </div>
           <div>
-            <a href="#">
+            <Link
+              to={{
+                pathname: "/news-details",
+                search: `?newsid=${newData.objectID}`,
+              }}
+            >
               <span className={classes.spanValue}>
-                {" "}
                 <span className="mx-1">|</span> {newData.author}
               </span>
-            </a>
+            </Link>
           </div>
           <div>
-            <a href="#">
+            <Link
+              to={{
+                pathname: "/news-details",
+                search: `?newsid=${newData.objectID}`,
+              }}
+            >
               <span className={classes.spanValue}>
                 <span className="mx-1">|</span>{" "}
-                {moment().diff(newData.created_at, "years")} years ago
+                {moment
+                  .utc(newData.created_at)
+                  .local()
+                  .startOf("seconds")
+                  .fromNow()}
               </span>
-            </a>
+            </Link>
           </div>
           <div>
-            <a href="#">
+            <Link
+              to={{
+                pathname: "/news-details",
+                search: `?newsid=${newData.objectID}`,
+              }}
+            >
               <span className={classes.spanValue}>
                 <span className="mx-1">|</span>
                 {newData.num_comments} comments
               </span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

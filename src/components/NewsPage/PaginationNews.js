@@ -57,3 +57,34 @@ const PaginationNews = ({ nbPages, setCurrentPage, currentPage }) => {
 };
 
 export default PaginationNews;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// import Pagination from "@mui/material/Pagination";
+// import Stack from "@mui/material/Stack";
+
+// export const PaginationNews = ({ nbPages, setCurrentPage, currentPage }) => {
+//   console.log(currentPage);
+
+//   const paginationHandeler = (e, p) => {
+//     console.log("what woyuld be event targt value", p);
+//     if (currentPage < nbPages) {
+//       setCurrentPage(currentPage + 1);
+//     } else if (currentPage > 0) {
+//       setCurrentPage(currentPage - 1);
+//     }
+//   };
+
+//   return (
+//     <Stack spacing={2}>
+//       <Pagination
+//         className="pagination d-flex justify-content-center p-8 flex-wrap text-muted"
+//         count={nbPages}
+//         shape="rounded"
+//         onClick={paginationHandeler}
+//       />
+//     </Stack>
+//   );
+// };
+
+// export default PaginationNews;
